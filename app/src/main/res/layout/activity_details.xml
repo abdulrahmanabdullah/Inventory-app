@@ -130,7 +130,7 @@
         app:layout_constraintStart_toStartOf="@+id/ed_price" />
 
     <Button
-        android:id="@+id/btn_increase"
+        android:id="@+id/btn_increment"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginStart="16dp"
@@ -141,15 +141,15 @@
         app:layout_constraintStart_toEndOf="@+id/ed_quantity" />
 
     <Button
-        android:id="@+id/btn_decrease"
+        android:id="@+id/btn_decrement"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginStart="16dp"
         android:background="@color/secondaryDarkColor"
         android:text="@string/subtract"
         android:textColor="@color/secondaryLightColor"
-        app:layout_constraintBaseline_toBaselineOf="@+id/btn_increase"
-        app:layout_constraintStart_toEndOf="@+id/btn_increase" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/btn_increment"
+        app:layout_constraintStart_toEndOf="@+id/btn_increment" />
 
     <EditText
         android:id="@+id/ed_supplier_name"

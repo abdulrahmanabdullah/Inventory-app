@@ -12,7 +12,7 @@
 	<string name="navigation_close">Close navigation drawer </string>
 	<string name="delete_activity_title">Delete all Data</string>
 	<string name="btn_delete_text">Delete All Data</string>
-	<string name="detail_activity_title">Detaile Item</string>
+	<string name="detail_activity_title">Detail Item</string>
 	<string name="alert_mes_when_remove_data">Are you sure to remove all data ?</string>
 	<string name="yes">Yes</string>
 	<string name="no">Cancel</string>
@@ -21,7 +21,9 @@
 	<string name="supplierPhone">Supplier Phone:</string>
     <string name="plus">+</string>
 	<string name="subtract">-</string>
-    <string name="update_item">Edit item</string>
+    <string name="update_item">Update item</string>
+	<string name="edit_title_page">Edit</string>
+	<string name="add_title_page">Add New </string>
 	<string name="delete">Delete</string>
 	<string name="contact">Contact</string>
     <string name="hint_price">Price</string>

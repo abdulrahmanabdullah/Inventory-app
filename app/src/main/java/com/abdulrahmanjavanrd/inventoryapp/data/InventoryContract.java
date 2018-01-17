@@ -13,7 +13,7 @@ public final class InventoryContract {
     // Authority  = package Name + InventoryProvider class
     public static final String CONENT_AUTHORITY = "com.abdulrahmanjavanrd.inventoryapp.InventoryProvider";
 
-    // Base uri it's = content://com.abdulrahmanjavanrd.inventoryapp.InventoryProvider
+    // Base uri it's = content://com.abdulrahmanjavanrd.inventoryapp.InventoryProvider/inventories/21
     private static final Uri  BASE_URI = Uri.parse("content://"+CONENT_AUTHORITY);
 
     //Table Name .

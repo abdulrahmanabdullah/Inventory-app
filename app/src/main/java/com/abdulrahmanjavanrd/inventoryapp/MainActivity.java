@@ -5,6 +5,7 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,9 +14,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -46,9 +49,9 @@ public class MainActivity extends AppCompatActivity  implements LoaderManager.Lo
     private final int LOADER = 0 ;
     Toolbar toolbar ;
     ListView listView ;
+    Button btnDecrementQuantity ;
     InventoryCursorAdapter adapter ;
     Cursor cursor ;
-
     DrawerLayout drawerLayout ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,29 +66,22 @@ public class MainActivity extends AppCompatActivity  implements LoaderManager.Lo
         // init adapter
         adapter = new InventoryCursorAdapter(this,null);
         listView.setAdapter(adapter);
+        btnDecrementQuantity =findViewById(R.id.btn_sale);
+//        btnDecrementQuantity.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(MainActivity.this,"Clicked btnnn",Toast.LENGTH_SHORT).show();
+//            }
+//        });
         // set onClickListener.
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                cursor =(Cursor) parent.getItemAtPosition(position);
-                int _id = cursor.getInt(cursor.getColumnIndex(_ID));
-                String productName = cursor.getString(cursor.getColumnIndex(COLUMN_NAME));
-                int _price = cursor.getInt(cursor.getColumnIndex(COLUMN_PRICE));
-                int _quantity = cursor.getInt(cursor.getColumnIndex(COLUMN_QUANTITY));
-                String _supplierName = cursor.getString(cursor.getColumnIndex(COLUMN_SUPPLIER_NAME));
-                String _supplierEmail=  cursor.getString(cursor.getColumnIndex(COLUMN_SUPPLIER_EMAIL));
-                int _supplierPhone = cursor.getInt(cursor.getColumnIndex(COLUMN_SUPPLIER_PHONE));
-                Intent i = new Intent(MainActivity.this, AddAndEditActivity.class);
-                //First send title page ;
-                i.putExtra("title","Edit");
-                i.putExtra("id",_id);
-                i.putExtra("name",productName);
-                i.putExtra("price",_price);
-                i.putExtra("quantity",_quantity);
-                i.putExtra("supplierName",_supplierName);
-                i.putExtra("supplierEmail",_supplierEmail);
-                i.putExtra("supplierPhone",_supplierPhone);
-                startActivity(i);
+                Intent mIntent = new Intent(MainActivity.this, AddAndEditActivity.class);
+                Uri uri = Uri.withAppendedPath(InventoryContract.InventoryEntry.CONTENT_URI,String.valueOf(id));
+                Log.i(TAG, "onItemClick: uri = "+uri);
+                mIntent.setData(uri);
+                startActivity(mIntent);
             }
         });
 
@@ -136,9 +132,6 @@ public class MainActivity extends AppCompatActivity  implements LoaderManager.Lo
             case R.id.nav_add_new:
                 //TODO: open new activity here ..
                 mIntent = new Intent(this,AddAndEditActivity.class);
-                //First send title page
-                mIntent.putExtra("title","Add new Item");
-//                mIntent.putExtra("id",0);
                 startActivity(mIntent);
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return true;

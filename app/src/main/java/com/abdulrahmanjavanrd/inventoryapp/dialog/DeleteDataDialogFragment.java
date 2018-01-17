@@ -19,7 +19,7 @@ public class DeleteDataDialogFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(R.string.alert_mes_when_remove_data).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -29,7 +29,8 @@ public class DeleteDataDialogFragment extends DialogFragment {
         }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                return;
+                if (dialog !=null)
+                    dialog.dismiss();
             }
         });
         return builder.create();

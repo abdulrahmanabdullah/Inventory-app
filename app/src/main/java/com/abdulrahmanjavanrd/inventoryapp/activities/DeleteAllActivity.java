@@ -39,10 +39,8 @@ public class DeleteAllActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_delete_all_data:
-                // TODO: open dialog ..
                 DeleteDataDialogFragment dialog = new DeleteDataDialogFragment();
                 dialog.show(getFragmentManager(),"");
-                Toast.makeText(this,"clicked ",Toast.LENGTH_SHORT).show();
 
         }
     }

@@ -12,6 +12,8 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.CONENT_AUTHORITY;
+import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.COLUMN_NAME;
+import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry._ID;
 import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.TABLE_NAME;
 
 /**
@@ -59,12 +61,12 @@ public class InventoryProvider extends ContentProvider {
                 break;
 
             case INVENTORY_BY_ID:
-                selection = InventoryContract.InventoryEntry._ID +" = ?";
+                selection = _ID +" = ?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 cursor = database.query(TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);
                 break;
             case INVENTORY_BY_NAME:
-                selection = InventoryContract.InventoryEntry._ID +" = ?";
+                selection = _ID +" = ?";
                 selectionArgs = new String[] {uri.getLastPathSegment()};
                 cursor = database.query(TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);
                 break;
@@ -116,11 +118,11 @@ public class InventoryProvider extends ContentProvider {
             case INVENTORY:
                 return deleteRecord(uri,TABLE_NAME,null,null);
             case INVENTORY_BY_ID:
-                selection = InventoryContract.InventoryEntry._ID+" =?";
+                selection = _ID+" =?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 return deleteRecord(uri,TABLE_NAME,selection,selectionArgs);
             case INVENTORY_BY_NAME:
-                selection = InventoryContract.InventoryEntry.COLUMN_NAME+" =?";
+                selection = COLUMN_NAME+" =?";
                 selectionArgs = new String[] {uri.getLastPathSegment()};
                 return deleteRecord(uri,TABLE_NAME,selection,selectionArgs);
                 default:
@@ -130,7 +132,31 @@ public class InventoryProvider extends ContentProvider {
 
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
-        return 0;
+        switch (uriMatcher.match(uri)){
+            case INVENTORY:
+                return updateRecord(uri,TABLE_NAME,values,selection,selectionArgs);
+            case INVENTORY_BY_ID:
+                selection = _ID+" =?";
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+                return  updateRecord(uri,TABLE_NAME,values,selection,selectionArgs);
+            case INVENTORY_BY_NAME:
+                selection = COLUMN_NAME+" =?";
+                selectionArgs = new String[]{uri.getLastPathSegment()};
+                return  updateRecord(uri,TABLE_NAME,values,selection,selectionArgs);
+                default:
+                    throw new IllegalArgumentException("Failed update record"+uri);
+        }
+    }
+
+    private int updateRecord(Uri uri, String tableName, ContentValues values, String selection, String[] args) {
+        SQLiteDatabase database = helper.getWritableDatabase();
+        int rowUpdate = database.update(tableName,values,selection,args);
+        if (rowUpdate == 0){
+           Log.e(TAG,"Empty uri"+uri);
+        }else{
+            getContext().getContentResolver().notifyChange(uri,null);
+        }
+        return rowUpdate;
     }
 
     private int deleteRecord(Uri uri, String tableName, String selection, String[] selectionArgs) {

@@ -1,12 +1,10 @@
 package com.abdulrahmanjavanrd.inventoryapp;
 
 import android.app.LoaderManager;
-import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,8 +13,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,14 +20,13 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.abdulrahmanjavanrd.inventoryapp.activities.DeleteAllActivity;
-import com.abdulrahmanjavanrd.inventoryapp.activities.InventoryDetails;
+import com.abdulrahmanjavanrd.inventoryapp.activities.AddAndEditActivity;
 import com.abdulrahmanjavanrd.inventoryapp.adapter.InventoryCursorAdapter;
 import com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract;
 import com.abdulrahmanjavanrd.inventoryapp.data.InventoryDBHelper;
 
 import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.COLUMN_NAME;
 import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.COLUMN_PRICE;
-import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.COLUMN_PRODUCT_IMAGE;
 import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.COLUMN_QUANTITY;
 import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.COLUMN_SUPPLIER_EMAIL;
 import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.COLUMN_SUPPLIER_NAME;
@@ -72,9 +67,26 @@ public class MainActivity extends AppCompatActivity  implements LoaderManager.Lo
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent i = new Intent(MainActivity.this, InventoryDetails.class);
+                cursor =(Cursor) parent.getItemAtPosition(position);
+
+                int _id = cursor.getInt(cursor.getColumnIndex(_ID));
+                String productName = cursor.getString(cursor.getColumnIndex(COLUMN_NAME));
+                int _price = cursor.getInt(cursor.getColumnIndex(COLUMN_PRICE));
+                int _quantity = cursor.getInt(cursor.getColumnIndex(COLUMN_QUANTITY));
+                String _supplierName = cursor.getString(cursor.getColumnIndex(COLUMN_SUPPLIER_NAME));
+                String _supplierEmail=  cursor.getString(cursor.getColumnIndex(COLUMN_SUPPLIER_EMAIL));
+                int _supplierPhone = cursor.getInt(cursor.getColumnIndex(COLUMN_SUPPLIER_PHONE));
+                Intent i = new Intent(MainActivity.this, AddAndEditActivity.class);
+                //First send title page ;
+                i.putExtra("title","Edit");
+                i.putExtra("id",_id);
+                i.putExtra("name",productName);
+                i.putExtra("price",_price);
+                i.putExtra("quantity",_quantity);
+                i.putExtra("supplierName",_supplierName);
+                i.putExtra("supplierEmail",_supplierEmail);
+                i.putExtra("supplierPhone",_supplierPhone);
                 startActivity(i);
-                Toast.makeText(MainActivity.this,"clicked"+cursor.getString(cursor.getColumnIndex(InventoryContract.InventoryEntry.COLUMN_NAME)),Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -154,7 +166,7 @@ public class MainActivity extends AppCompatActivity  implements LoaderManager.Lo
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String[] projection = {
-                _ID,COLUMN_NAME,COLUMN_PRICE,COLUMN_QUANTITY
+                _ID,COLUMN_NAME,COLUMN_PRICE,COLUMN_QUANTITY,COLUMN_SUPPLIER_NAME,COLUMN_SUPPLIER_EMAIL,COLUMN_SUPPLIER_PHONE
         };
         return new CursorLoader(MainActivity.this, InventoryContract.InventoryEntry.CONTENT_URI,projection,null,null,null);
     }
@@ -162,7 +174,6 @@ public class MainActivity extends AppCompatActivity  implements LoaderManager.Lo
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         adapter.swapCursor(data);
-        cursor = data ;
     }
 
     @Override
@@ -175,17 +186,21 @@ public class MainActivity extends AppCompatActivity  implements LoaderManager.Lo
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        Intent mIntent ;
         switch (item.getItemId()){
             case R.id.nav_add_new:
                 //TODO: open new activity here ..
-                Toast.makeText(this, "you clicked add ", Toast.LENGTH_SHORT).show();
+                mIntent = new Intent(this,AddAndEditActivity.class);
+                //First send title page
+                mIntent.putExtra("title","Add new Item");
+                mIntent.putExtra("id",0);
+                startActivity(mIntent);
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return true;
             case R.id.nav_delete_all_items:
                 //TODO: open new activity here ..
-                Intent i = new Intent(this, DeleteAllActivity.class);
-                startActivity(i);
+                mIntent = new Intent(this, DeleteAllActivity.class);
+                startActivity(mIntent);
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return true;
         }

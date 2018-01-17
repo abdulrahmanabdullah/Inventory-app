@@ -15,7 +15,7 @@ import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.Invento
 import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.TABLE_NAME;
 
 /**
- * Created by nfs05 on 14/01/2018.
+ * @author Abdulrahman.A on 14/01/2018.
  */
 
 public class InventoryDBHelper  extends SQLiteOpenHelper {

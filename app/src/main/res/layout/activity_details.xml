@@ -1,36 +1,241 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
-	tools:context=".activities.InventoryDetails"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent">
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="visible"
+    tools:context=".activities.AddAndEditActivity">
 
-	<android.support.design.widget.AppBarLayout
-		android:id="@+id/appBarLayout2"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:theme="@style/AppTheme.AppBar">
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBar">
 
-		<android.support.v7.widget.Toolbar
-			android:id="@+id/toolbar"
-			android:layout_width="match_parent"
-			android:layout_height="?attr/actionBarSize"
-			android:background="@color/primaryColor"
-			app:layout_constraintTop_toTopOf="parent"
-			app:popupTheme="@style/AppTheme.PopupOverlay" />
-	</android.support.design.widget.AppBarLayout>
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/primaryColor"
+            app:layout_constraintTop_toTopOf="parent"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+    </android.support.design.widget.AppBarLayout>
 
-	<TextView
-		android:id="@+id/textView"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginEnd="8dp"
-		android:layout_marginStart="8dp"
-		android:layout_marginTop="120dp"
-		android:text="Details page "
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/appBarLayout2" />
+    <TextView
+        android:id="@+id/txv_product_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/primaryTextColor"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/productName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout2" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="109dp" />
+
+    <TextView
+        android:id="@+id/txv_product_price"
+        android:textColor="@color/primaryTextColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/productPrice"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txv_product_name" />
+
+    <TextView
+        android:id="@+id/txv_product_quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:textColor="@color/primaryTextColor"
+        android:text="@string/productQuantity"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txv_product_price" />
+
+    <TextView
+        android:id="@+id/txv_supplier_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textColor="@color/primaryTextColor"
+        android:layout_marginTop="24dp"
+        android:text="@string/supplierName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txv_product_quantity" />
+
+    <TextView
+        android:id="@+id/txv_supplier_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:textColor="@color/primaryTextColor"
+        android:text="@string/supplierEmail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txv_supplier_name" />
+
+    <TextView
+        android:id="@+id/txv_supplier_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/supplierPhone"
+        android:textColor="@color/primaryTextColor"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txv_supplier_email" />
+
+    <EditText
+        android:id="@+id/ed_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="40dp"
+        android:layout_marginStart="8dp"
+        android:ems="10"
+        android:hint="@string/hint_product_name"
+        android:inputType="textPersonName"
+        app:layout_constraintBaseline_toBaselineOf="@+id/txv_product_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline2" />
+
+    <EditText
+        android:id="@+id/ed_price"
+        android:layout_width="212dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:hint="@string/hint_price"
+        android:inputType="number"
+        app:layout_constraintBaseline_toBaselineOf="@+id/txv_product_price"
+        app:layout_constraintEnd_toEndOf="@+id/ed_name"
+        app:layout_constraintStart_toStartOf="@+id/ed_name" />
+
+    <EditText
+        android:id="@+id/ed_quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_quantity"
+        android:inputType="number"
+        app:layout_constraintBaseline_toBaselineOf="@+id/txv_product_quantity"
+        app:layout_constraintStart_toStartOf="@+id/ed_price" />
+
+    <Button
+        android:id="@+id/btn_increase"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="16dp"
+        android:background="@color/secondaryDarkColor"
+        android:text="@string/plus"
+        android:textColor="@color/secondaryLightColor"
+        app:layout_constraintBaseline_toBaselineOf="@+id/ed_quantity"
+        app:layout_constraintStart_toEndOf="@+id/ed_quantity" />
+
+    <Button
+        android:id="@+id/btn_decrease"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="16dp"
+        android:background="@color/secondaryDarkColor"
+        android:text="@string/subtract"
+        android:textColor="@color/secondaryLightColor"
+        app:layout_constraintBaseline_toBaselineOf="@+id/btn_increase"
+        app:layout_constraintStart_toEndOf="@+id/btn_increase" />
+
+    <EditText
+        android:id="@+id/ed_supplier_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/hint_supplier_name"
+        android:inputType="textPersonName"
+        app:layout_constraintBaseline_toBaselineOf="@+id/txv_supplier_name"
+        app:layout_constraintEnd_toEndOf="@+id/ed_price"
+        app:layout_constraintStart_toStartOf="@+id/ed_quantity" />
+
+    <EditText
+        android:id="@+id/ed_supplier_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/hint_supplier_email"
+        android:inputType="textEmailAddress"
+        app:layout_constraintBaseline_toBaselineOf="@+id/txv_supplier_email"
+        app:layout_constraintEnd_toEndOf="@+id/ed_supplier_name"
+        app:layout_constraintStart_toStartOf="@+id/ed_supplier_name" />
+
+    <EditText
+        android:id="@+id/ed_supplier_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/hint_supplier_phone"
+        android:inputType="phone"
+        app:layout_constraintBaseline_toBaselineOf="@+id/txv_supplier_phone"
+        app:layout_constraintEnd_toEndOf="@+id/ed_supplier_email"
+        app:layout_constraintStart_toStartOf="@+id/ed_supplier_email" />
+
+
+    <Button
+        android:id="@+id/btn_add_new_item"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/secondaryDarkColor"
+        android:text="@string/add_new_item"
+        android:textColor="@color/secondaryLightColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ed_supplier_phone" />
+
+    <Button
+        android:id="@+id/btn_update_item"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="76dp"
+        android:background="@color/secondaryDarkColor"
+        android:text="@string/update_item"
+        android:textColor="@color/secondaryLightColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ed_supplier_phone" />
+
+    <Button
+        android:id="@+id/btn_delete_item"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@color/secondaryDarkColor"
+        android:text="@string/delete"
+        android:textColor="@color/secondaryLightColor"
+        app:layout_constraintEnd_toEndOf="@+id/btn_update_item"
+        app:layout_constraintStart_toStartOf="@+id/btn_update_item"
+        app:layout_constraintTop_toBottomOf="@+id/btn_update_item" />
+
+    <Button
+        android:id="@+id/btn_contact"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@color/secondaryDarkColor"
+        android:text="@string/contact"
+        android:textColor="@color/secondaryLightColor"
+        app:layout_constraintEnd_toEndOf="@+id/btn_delete_item"
+        app:layout_constraintStart_toStartOf="@+id/btn_delete_item"
+        app:layout_constraintTop_toBottomOf="@+id/btn_delete_item" />
+    <!--Linear Layout contain three button .-->
 </android.support.constraint.ConstraintLayout>

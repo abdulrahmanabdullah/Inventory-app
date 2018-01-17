@@ -15,7 +15,7 @@ import com.abdulrahmanjavanrd.inventoryapp.R;
 import com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract;
 
 /**
- * Created by nfs05 on 16/01/2018.
+ * @author Abdulrahman.A on 16/01/2018.
  */
 
 public class InventoryCursorAdapter extends CursorAdapter implements View.OnClickListener {

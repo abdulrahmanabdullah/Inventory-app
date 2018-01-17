@@ -4,7 +4,7 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 
 /**
- * Created by nfs05 on 14/01/2018.
+ * @author Abdulrahman.A 14/01/2018.
  */
 
 public final class InventoryContract {

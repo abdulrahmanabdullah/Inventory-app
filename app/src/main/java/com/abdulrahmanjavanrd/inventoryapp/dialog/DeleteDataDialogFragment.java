@@ -11,7 +11,7 @@ import com.abdulrahmanjavanrd.inventoryapp.R;
 import com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract;
 
 /**
- * Created by nfs05 on 17/01/2018.
+ * @author Abdulrahman.A on 17/01/2018.
  */
 
 public class DeleteDataDialogFragment extends DialogFragment {
@@ -19,20 +19,17 @@ public class DeleteDataDialogFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
         builder.setMessage(R.string.alert_mes_when_remove_data).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-               //TODO:: Remove All data in data base ;
                 deleteAllData();
                 getActivity().finish();
             }
         }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-               // TODO:: Return to  MainActivity.
+                return;
             }
         });
         return builder.create();

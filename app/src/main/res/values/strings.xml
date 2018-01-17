@@ -1,0 +1,19 @@
+<resources>
+	<string name="app_name">InventoryApp</string>
+	<string name="txvEmptyMsg">Empty Products</string>
+	<string name="sale">Sale</string>
+	<string name="productName">Product Name:</string>
+	<string name="productPrice">Price :</string>
+	<string name="productQuantity">Quantity :</string>
+	<string name="title_nav_header_main">Phones Item</string>
+	<string name="add_new_item">Add New Items</string>
+	<string name="delete_item">Delete All Items</string>
+	<string name="navigation_open">Open navigation drawer </string>
+	<string name="navigation_close">Close navigation drawer </string>
+	<string name="delete_activity_title">Delete all Data</string>
+	<string name="btn_delete_text">Delete All Data</string>
+	<string name="detail_activity_title">Detaile Item</string>
+	<string name="alert_mes_when_remove_data">Are you sure to remove all data ?</string>
+	<string name="yes">Yes</string>
+	<string name="no">Cancel</string>
+</resources>

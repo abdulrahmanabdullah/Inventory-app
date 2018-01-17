@@ -68,7 +68,6 @@ public class MainActivity extends AppCompatActivity  implements LoaderManager.Lo
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 cursor =(Cursor) parent.getItemAtPosition(position);
-
                 int _id = cursor.getInt(cursor.getColumnIndex(_ID));
                 String productName = cursor.getString(cursor.getColumnIndex(COLUMN_NAME));
                 int _price = cursor.getInt(cursor.getColumnIndex(COLUMN_PRICE));
@@ -109,59 +108,6 @@ public class MainActivity extends AppCompatActivity  implements LoaderManager.Lo
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
-    // Read all records in dataBase.
-//    private void displayData(){
-//        String[] projection = {
-//               _ID,COLUMN_NAME,COLUMN_PRICE,COLUMN_QUANTITY,COLUMN_PRODUCT_IMAGE,COLUMN_SUPPLIER_NAME,COLUMN_SUPPLIER_EMAIL,COLUMN_SUPPLIER_PHONE
-//        };
-//        String selection = null ;
-//        String[] selectionArgs = null ;
-//        String sortBy = null ;
-////       database = helper.getReadableDatabase();
-//        Uri uri = InventoryContract.InventoryEntry.CONTENT_URI ;
-//        Log.i(TAG,"uri = "+uri);
-//       Cursor cursor = getContentResolver().query(uri,projection,selection,selectionArgs,sortBy);
-//       if (cursor != null){
-//           String str = "\n";
-//           while (cursor.moveToNext()){
-//               String[] columns = cursor.getColumnNames();
-//               for (String items : columns){
-//                   str += "\t"+cursor.getString(cursor.getColumnIndex(items));
-//               }
-//               str += "\n";
-//           }
-//           Log.i(TAG," Total records "+ str );
-//       }
-//
-//        ListView listView = findViewById(R.id.list_item);
-//        InventoryCursorAdapter adapter = new InventoryCursorAdapter(this, cursor, 0);
-//        listView.setAdapter(adapter);
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//            }
-//        });
-//    }
-
-
-    //
-
-    /**
-     *Insert data into {@link InventoryDBHelper} data base.
-     */
-//    private void insertData(){
-//        ContentValues values = new ContentValues();
-//        values.put(COLUMN_NAME,"Google Pixel XL ");
-//        values.put(COLUMN_PRICE,299);
-//        values.put(COLUMN_QUANTITY,1);
-//        values.put(COLUMN_PRODUCT_IMAGE,"pic:url");
-//        values.put(COLUMN_SUPPLIER_NAME,"google.com");
-//        values.put(COLUMN_SUPPLIER_EMAIL,"google@google.com");
-//        values.put(COLUMN_SUPPLIER_PHONE,4213456);
-//        Uri uri = InventoryContract.InventoryEntry.CONTENT_URI ;
-//        Uri rowInserted =getContentResolver().insert(uri,values);
-//        Log.i(TAG," Inserted "+ rowInserted+" rows ");
-//    }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -179,7 +125,6 @@ public class MainActivity extends AppCompatActivity  implements LoaderManager.Lo
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         adapter.swapCursor(null);
-
     }
 
 
@@ -193,7 +138,7 @@ public class MainActivity extends AppCompatActivity  implements LoaderManager.Lo
                 mIntent = new Intent(this,AddAndEditActivity.class);
                 //First send title page
                 mIntent.putExtra("title","Add new Item");
-                mIntent.putExtra("id",0);
+//                mIntent.putExtra("id",0);
                 startActivity(mIntent);
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return true;

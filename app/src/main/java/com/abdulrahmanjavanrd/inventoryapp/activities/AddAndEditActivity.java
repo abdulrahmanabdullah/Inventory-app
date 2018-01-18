@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,7 +17,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.abdulrahmanjavanrd.inventoryapp.R;
-import com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract;
 
 import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.COLUMN_NAME;
 import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.COLUMN_PRICE;
@@ -24,6 +24,7 @@ import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.Invento
 import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.COLUMN_SUPPLIER_EMAIL;
 import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.COLUMN_SUPPLIER_NAME;
 import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.COLUMN_SUPPLIER_PHONE;
+import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.CONTENT_URI;
 
 /**
  * @author Abdulrahman.A on 16/01/2018.
@@ -157,24 +158,55 @@ public class AddAndEditActivity extends AppCompatActivity implements View.OnClic
      * Insert data into dataBase, with what client input
      */
     private void insertNewItem() {
-        Uri uri = InventoryContract.InventoryEntry.CONTENT_URI;
         String name = edProductName.getText().toString();
         String price = edPrice.getText().toString();
         String quantity = edQuantity.getText().toString();
         String supplierName = edSupplierName.getText().toString();
         String supplierEmail = edSupplierEmail.getText().toString();
         String supplierPhone = edSupplierPhone.getText().toString();
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_NAME, name);
-        values.put(COLUMN_PRICE, Integer.parseInt(price));
-        values.put(COLUMN_QUANTITY, Integer.parseInt(quantity));
-        values.put(COLUMN_SUPPLIER_NAME, supplierName);
-        values.put(COLUMN_SUPPLIER_EMAIL, supplierEmail);
-        values.put(COLUMN_SUPPLIER_PHONE, Integer.parseInt(supplierPhone));
-        Uri rowUri = getContentResolver().insert(uri, values);
-        Log.i(TAG, "inserted data = " + rowUri);
+        if (isContentEmpty(name) &&
+                isContentEmpty(price) &&
+                isContentEmpty(quantity) &&
+                isContentEmpty(supplierName) &&
+                isContentEmpty(supplierEmail) &&
+                isContentEmpty(supplierPhone)
+                ) {
+            Uri uri = CONTENT_URI;
+            ContentValues values = new ContentValues();
+            values.put(COLUMN_NAME, name);
+            values.put(COLUMN_PRICE, Integer.parseInt(price));
+            values.put(COLUMN_QUANTITY, Integer.parseInt(quantity));
+            values.put(COLUMN_SUPPLIER_NAME, supplierName);
+            values.put(COLUMN_SUPPLIER_EMAIL, supplierEmail);
+            values.put(COLUMN_SUPPLIER_PHONE, Integer.parseInt(supplierPhone));
+            Uri rowUri = getContentResolver().insert(uri, values);
+            Log.i(TAG, "inserted data = " + rowUri);
+            Toast.makeText(this, "Successful", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Failed Add new item. ", Toast.LENGTH_LONG).show();
+        }
     }
 
+    /**
+     * @param editText for all fields
+     * @return true if NOT empty, false if empty .
+     */
+    private boolean hasContentEmpty(EditText editText){
+        boolean mHasContent;
+       if (editText.getText().toString().trim().length() > 0){
+          mHasContent = true ;
+       }else {
+           mHasContent = false ;
+       }
+        return mHasContent;
+    }
+    private boolean isContentEmpty(String str){
+        boolean mHasContent = false;
+       if (!TextUtils.isEmpty(str.trim())){
+          mHasContent = true ;
+       }
+        return mHasContent;
+    }
     /**
      * if {@link #currentItemUri } Not empty get all data for this uri .
      */

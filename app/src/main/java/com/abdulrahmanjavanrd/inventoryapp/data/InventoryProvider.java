@@ -163,7 +163,7 @@ public class InventoryProvider extends ContentProvider {
         SQLiteDatabase database = helper.getWritableDatabase();
         int rowDel = database.delete(tableName, selection, selectionArgs);
 
-        // Updata list after delete .
+        // Update list after delete .
         if (rowDel != 0) {
             getContext().getContentResolver().notifyChange(uri, null);
         }

@@ -25,6 +25,10 @@ import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.Invento
 import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.COLUMN_SUPPLIER_NAME;
 import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.COLUMN_SUPPLIER_PHONE;
 import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.CONTENT_URI;
+import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.DEFAULT_QUANTITY;
+import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.DEFAULT_SUPPLIER_EMAIL;
+import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.DEFAULT_SUPPLIER_NAME;
+import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.DEFAULT_SUPPLIER_PHONE;
 
 /**
  * @author Abdulrahman.A on 16/01/2018.
@@ -98,11 +102,9 @@ public class AddAndEditActivity extends AppCompatActivity implements View.OnClic
         switch (v.getId()) {
             case R.id.btn_add_new_item:
                 insertNewItem();
-                finish();
                 break;
             case R.id.btn_update_item:
                 updateRecord();
-                finish();
                 break;
             case R.id.btn_delete_item:
                 deleteRecord();
@@ -136,7 +138,7 @@ public class AddAndEditActivity extends AppCompatActivity implements View.OnClic
         if (quantityCounter <= 1) {
             quantityCounter = 1;
             updateQuantity(quantityCounter);
-            Toast.makeText(this, "You should choise One at least .", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.set_one_at_least), Toast.LENGTH_LONG).show();
         } else {
             quantityCounter--;
             updateQuantity(quantityCounter);
@@ -164,42 +166,69 @@ public class AddAndEditActivity extends AppCompatActivity implements View.OnClic
         String supplierName = edSupplierName.getText().toString();
         String supplierEmail = edSupplierEmail.getText().toString();
         String supplierPhone = edSupplierPhone.getText().toString();
-        if (isContentEmpty(name) &&
-                isContentEmpty(price) &&
-                isContentEmpty(quantity) &&
-                isContentEmpty(supplierName) &&
-                isContentEmpty(supplierEmail) &&
-                isContentEmpty(supplierPhone)
-                ) {
+        //First Check the uri Is Null .
+        if (currentItemUri == null) {
             Uri uri = CONTENT_URI;
             ContentValues values = new ContentValues();
-            values.put(COLUMN_NAME, name);
-            values.put(COLUMN_PRICE, Integer.parseInt(price));
-            values.put(COLUMN_QUANTITY, Integer.parseInt(quantity));
-            values.put(COLUMN_SUPPLIER_NAME, supplierName);
-            values.put(COLUMN_SUPPLIER_EMAIL, supplierEmail);
-            values.put(COLUMN_SUPPLIER_PHONE, Integer.parseInt(supplierPhone));
+            //Check Product Name it's required  than put data ...
+            if (isContentEmpty(name)) {
+                values.put(COLUMN_NAME, name);
+            } else {
+                Toast.makeText(this, getString(R.string.fill_product_name), Toast.LENGTH_LONG).show();
+                return;
+            }
+            // Then check price,any items should contain price.
+            if (isContentEmpty(price)) {
+                values.put(COLUMN_PRICE, Integer.parseInt(price));
+            } else {
+                Toast.makeText(this, getString(R.string.what_price) + name, Toast.LENGTH_LONG).show();
+                return;
+            }
+            // Then check Quantity , if empty , get the Default value,And forward
+            if (isContentEmpty(quantity)) {
+                values.put(COLUMN_QUANTITY, Integer.parseInt(quantity));
+            } else {
+                values.put(COLUMN_QUANTITY, DEFAULT_QUANTITY);
+            }
+            // Last Condition check the supplier info,
+            if (isContentEmpty(supplierName)) {
+                values.put(COLUMN_SUPPLIER_NAME, supplierName);
+            } else {
+                Toast.makeText(this, getString(R.string.add_default_supplier_name), Toast.LENGTH_SHORT).show();
+                values.put(COLUMN_SUPPLIER_NAME, DEFAULT_SUPPLIER_NAME);
+            }
+            if (isContentEmpty(supplierEmail)) {
+                values.put(COLUMN_SUPPLIER_EMAIL, supplierEmail);
+            } else {
+                Toast.makeText(this, getString(R.string.add_default_supplier_email), Toast.LENGTH_SHORT).show();
+                values.put(COLUMN_SUPPLIER_EMAIL, DEFAULT_SUPPLIER_EMAIL);
+            }
+            if (isContentEmpty(supplierPhone)) {
+                values.put(COLUMN_SUPPLIER_PHONE, Integer.parseInt(supplierPhone));
+            } else {
+                Toast.makeText(this, getString(R.string.add_default_supplier_phone), Toast.LENGTH_SHORT).show();
+                values.put(COLUMN_SUPPLIER_PHONE, DEFAULT_SUPPLIER_PHONE);
+            }
+            // After check all fields, it's okay to send data to database .
             Uri rowUri = getContentResolver().insert(uri, values);
-            Log.i(TAG, "inserted data = " + rowUri);
-            Toast.makeText(this, "Successful", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(this, "Failed Add new item. ", Toast.LENGTH_LONG).show();
+            //Check if add data successful..
+            if (rowUri == null) {
+                Toast.makeText(this, getString(R.string.failed_add_new_item), Toast.LENGTH_LONG).show();
+            } else {
+                Log.i(TAG, "inserted data = " + rowUri);
+                Toast.makeText(this, getString(R.string.successful_insert), Toast.LENGTH_LONG).show();
+            }
+        }
+        // if Not empty uri  ..
+        else {
+            Toast.makeText(this, getString(R.string.uri_is_not_empty), Toast.LENGTH_LONG).show();
         }
     }
 
     /**
-     * @param editText for all fields
-     * @return true if NOT empty, false if empty .
+     * @param str get text from EditText .
+     * @return true if NOT Null, else return false .
      */
-    private boolean hasContentEmpty(EditText editText){
-        boolean mHasContent;
-       if (editText.getText().toString().trim().length() > 0){
-          mHasContent = true ;
-       }else {
-           mHasContent = false ;
-       }
-        return mHasContent;
-    }
     private boolean isContentEmpty(String str){
         boolean mHasContent = false;
        if (!TextUtils.isEmpty(str.trim())){
@@ -279,6 +308,11 @@ public class AddAndEditActivity extends AppCompatActivity implements View.OnClic
         values.put(COLUMN_SUPPLIER_EMAIL, newSupplierEmail);
         values.put(COLUMN_SUPPLIER_PHONE, Integer.valueOf(newSupplierPhone));
         int rowUpdate = getContentResolver().update(currentItemUri, values, selection, selectionArgs);
+        if (rowUpdate == 0){
+            Toast.makeText(this,getString(R.string.failed_update)+selection,Toast.LENGTH_LONG).show();
+        }else{
+            Toast.makeText(this,getString(R.string.successful_update)+selectionArgs[0],Toast.LENGTH_LONG).show();
+        }
         Log.i(TAG, "Update successful " + rowUpdate);
     }
 

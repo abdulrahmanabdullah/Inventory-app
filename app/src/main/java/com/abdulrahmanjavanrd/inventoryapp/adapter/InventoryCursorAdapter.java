@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.abdulrahmanjavanrd.inventoryapp.R;
 import com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract;
 
+import java.text.NumberFormat;
+
 /**
  * @author Abdulrahman.A on 16/01/2018.
  */
@@ -45,23 +47,27 @@ public class InventoryCursorAdapter extends CursorAdapter implements View.OnClic
         // save values .
         String _Name = cursor.getString(columnProductName);
         int _Price = cursor.getInt(columnProductPrice);
+        // Add $ to the Price
+        NumberFormat numberFormat = NumberFormat.getCurrencyInstance();
+        String formatter = numberFormat.format(_Price);
+        // save quantity ..
         int _Quantity = cursor.getInt(columnProductQuantity);
 
-        //TODO: update quantity ..
         // set result in TextView .
         productName.setText(_Name);
-        productPrice.setText(String.valueOf(_Price));
+        productPrice.setText(formatter);
         productQuantity.setText(String.valueOf(_Quantity));
         Button btn = view.findViewById(R.id.btn_sale);
         //TODO: decrease quantity .
         decrementQuantity = _Quantity;
-//        btn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                decrementQuantity-- ;
-//                updateQuantity(decrementQuantity);
-//            }
-//        });
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                decrementQuantity-- ;
+                updateQuantity(decrementQuantity);
+            }
+        });
+
     }
 
     private void updateQuantity(int q){

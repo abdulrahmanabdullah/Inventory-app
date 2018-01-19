@@ -32,4 +32,16 @@
 	<string name="hint_supplier_name">Supplier Name</string>
 	<string name="hint_supplier_email">Supplier Email</string>
 	<string name="hint_supplier_phone">Supplier Phone</string>
+	<string name="successful_update">Successful update.</string>
+	<string name="failed_update">Failed update</string>
+	<string name="fill_product_name">Please entre the item name</string>
+	<string name="what_price">What Price for the\n</string>
+	<string name="add_default_supplier_name">Add default supplier name</string>
+	<string name="add_default_supplier_email">Add default supplier email.</string>
+	<string name="add_default_supplier_phone">Add supplier phone</string>
+	<string name="failed_add_new_item">Failed insert data</string>
+	<string name="successful_insert">Successful add it .</string>
+	<string name="uri_is_not_empty">Uri Is Not empty</string>
+	<string name="set_one_at_least">It\'s Minimum value</string>
+	<string name="no_data_to_deleted">DataBase is empty</string>
 </resources>

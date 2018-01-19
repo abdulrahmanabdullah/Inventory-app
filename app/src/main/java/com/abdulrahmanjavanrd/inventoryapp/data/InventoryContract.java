@@ -22,18 +22,18 @@ public final class InventoryContract {
     //Forbidden create new object .
     private InventoryContract(){}
 
-    public static final class InventoryEntry implements BaseColumns{
-
-        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_URI,TABLE_NAME);
+    public static final class InventoryEntry implements BaseColumns {
+        //This uri i deal with .
+        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_URI, TABLE_NAME);
         // id field data type = int
-        public static final String _ID =BaseColumns._ID;
+        public static final String _ID = BaseColumns._ID;
         // ProductName field data type = text .
         public static final String COLUMN_NAME = "ProductName";
         // ProductPrice field data type = int.
         public static final String COLUMN_PRICE = "Price";
         //  Quantity field data type = int.
         public static final String COLUMN_QUANTITY = "Quantity";
-        // ProductImage field data type = text.
+        // ProductImage field data type = text. // initial image , maybe i use it in future .
         public static final String COLUMN_PRODUCT_IMAGE = "ProductImage";
         // SupplierName field data type = text
         public static final String COLUMN_SUPPLIER_NAME = "SupplierName";
@@ -43,6 +43,13 @@ public final class InventoryContract {
         public static final String COLUMN_SUPPLIER_PHONE = "SupplierPhone";
 
 
-
+        // If Quantity Empty ..
+        public static final int DEFAULT_QUANTITY = 5;
+        //IF SupplierName Empty ..
+        public static final String DEFAULT_SUPPLIER_NAME = "Abdulrahman.A";
+        //IF SupplierEmail Empty ..
+        public static final String DEFAULT_SUPPLIER_EMAIL = "nfs056@gmail.com";
+        // If SupplierPhone Empty ..
+        public static final int DEFAULT_SUPPLIER_PHONE = 1234567890;
     }
 }

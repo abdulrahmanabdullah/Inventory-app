@@ -8,7 +8,6 @@ import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.Invento
 import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.COLUMN_NAME;
 import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.COLUMN_PRICE;
 import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.COLUMN_QUANTITY;
-import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.COLUMN_PRODUCT_IMAGE;
 import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.COLUMN_SUPPLIER_NAME;
 import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.COLUMN_SUPPLIER_EMAIL;
 import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.COLUMN_SUPPLIER_PHONE;
@@ -27,10 +26,9 @@ public class InventoryDBHelper  extends SQLiteOpenHelper {
     // create new table in inventory.db
     private final static String SQL_CREATE_TABLE = "CREATE TABLE "+TABLE_NAME+" ( "+
             _ID+" INTEGER  PRIMARY KEY AUTOINCREMENT,"
-            + COLUMN_NAME+" TEXT ,"
+            + COLUMN_NAME+" TEXT NOT NULL ,"
             + COLUMN_PRICE+" INTEGER , "
-            + COLUMN_QUANTITY+" INTEGER ,"
-            + COLUMN_PRODUCT_IMAGE+" TEXT , "
+            + COLUMN_QUANTITY+" INTEGER NOT NULL ,"
             + COLUMN_SUPPLIER_NAME+ " TEXT ,"
             + COLUMN_SUPPLIER_EMAIL+ " TEXT ,"
             + COLUMN_SUPPLIER_PHONE+ " INTEGER "

@@ -7,6 +7,7 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -66,13 +67,6 @@ public class MainActivity extends AppCompatActivity  implements LoaderManager.Lo
         // init adapter
         adapter = new InventoryCursorAdapter(this,null);
         listView.setAdapter(adapter);
-        btnDecrementQuantity =findViewById(R.id.btn_sale);
-//        btnDecrementQuantity.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(MainActivity.this,"Clicked btnnn",Toast.LENGTH_SHORT).show();
-//            }
-//        });
         // set onClickListener.
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -90,6 +84,16 @@ public class MainActivity extends AppCompatActivity  implements LoaderManager.Lo
          initialDrawer();
         // start loader
         getLoaderManager().initLoader(LOADER,null,this);
+
+        // fab button to add new items ..
+        FloatingActionButton floatingActionButton = findViewById(R.id.fab_insert_data);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mIntent = new Intent(MainActivity.this,AddAndEditActivity.class);
+                startActivity(mIntent);
+            }
+        });
 
     }
 
@@ -127,22 +131,13 @@ public class MainActivity extends AppCompatActivity  implements LoaderManager.Lo
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        Intent mIntent ;
         switch (item.getItemId()){
-            case R.id.nav_add_new:
-                //TODO: open new activity here ..
-                mIntent = new Intent(this,AddAndEditActivity.class);
-                startActivity(mIntent);
-                drawerLayout.closeDrawer(GravityCompat.START);
-                return true;
             case R.id.nav_delete_all_items:
-                //TODO: open new activity here ..
-                mIntent = new Intent(this, DeleteAllActivity.class);
+               Intent mIntent = new Intent(this, DeleteAllActivity.class);
                 startActivity(mIntent);
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return true;
         }
-
         return false;
     }
 

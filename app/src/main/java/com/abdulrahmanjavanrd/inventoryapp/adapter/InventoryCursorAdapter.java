@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.abdulrahmanjavanrd.inventoryapp.R;
 import com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract;
@@ -33,7 +34,7 @@ public class InventoryCursorAdapter extends CursorAdapter implements View.OnClic
     }
 
     @Override
-    public void bindView(View view, final Context context, Cursor cursor) {
+    public void bindView(View view, final Context context, final Cursor cursor) {
 
         TextView productName = view.findViewById(R.id.txv_product_name_value);
         TextView productPrice = view.findViewById(R.id.txv_product_price_value);
@@ -63,8 +64,9 @@ public class InventoryCursorAdapter extends CursorAdapter implements View.OnClic
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                decrementQuantity-- ;
-                updateQuantity(decrementQuantity);
+//                decrementQuantity-- ;
+//                updateQuantity(decrementQuantity);
+                Toast.makeText(context," " +cursor.getPosition(),Toast.LENGTH_LONG).show();
             }
         });
 
@@ -81,4 +83,8 @@ public class InventoryCursorAdapter extends CursorAdapter implements View.OnClic
         }
     }
 
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        return super.getView(position, convertView, parent);
+    }
 }

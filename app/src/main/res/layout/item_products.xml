@@ -97,10 +97,10 @@
 					android:id="@+id/btn_sale"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
+					android:layout_marginBottom="5dp"
 					android:layout_weight="0.4"
 					android:background="@color/secondaryDarkColor"
 					android:focusable="false"
-					android:layout_marginBottom="5dp"
 					android:focusableInTouchMode="false"
 					android:text="@string/sale"
 					android:textColor="@color/secondaryLightColor" />

@@ -10,9 +10,9 @@
 	<!--AppBarLayout contain Toolbar .-->
 	<android.support.design.widget.AppBarLayout
 		android:id="@+id/appBarLayout"
-		android:theme="@style/AppTheme.AppBar"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content">
+		android:layout_height="wrap_content"
+		android:theme="@style/AppTheme.AppBar">
 
 		<android.support.v7.widget.Toolbar
 			android:id="@+id/toolbar"
@@ -24,18 +24,19 @@
 	</android.support.design.widget.AppBarLayout>
 
 
-	<!--This View Contain text View for show empty text when db empty .-->
+	<!--This View Contain text View for show empty text when db is empty .-->
 	<RelativeLayout
 		android:id="@+id/empty_view"
 		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
+		android:layout_height="235dp"
+		android:layout_marginBottom="8dp"
 		android:layout_marginEnd="8dp"
 		android:layout_marginStart="8dp"
-		android:layout_marginTop="16dp"
-		android:visibility="visible"
+		android:layout_marginTop="8dp"
+		app:layout_constraintBottom_toBottomOf="@+id/list_view_item"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toTopOf="@+id/list_view_item">
+		app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
 
 		<TextView
 			android:id="@+id/txv_empty_msg"
@@ -46,10 +47,6 @@
 			android:layout_marginStart="8dp"
 			android:layout_marginTop="216dp"
 			android:text="@string/txvEmptyMsg"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintHorizontal_bias="0.448"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toTopOf="parent"
 			tools:text="Empty Products" />
 	</RelativeLayout>
 
@@ -68,10 +65,12 @@
 		android:id="@+id/fab_insert_data"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
+		android:layout_gravity="bottom|end"
 		android:layout_marginBottom="16dp"
+		android:layout_marginEnd="16dp"
 		android:isScrollContainer="true"
 		android:src="@drawable/ic_add"
-		android:layout_marginEnd="16dp"
+		app:fabSize="mini"
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintEnd_toEndOf="parent" />
 </android.support.constraint.ConstraintLayout>

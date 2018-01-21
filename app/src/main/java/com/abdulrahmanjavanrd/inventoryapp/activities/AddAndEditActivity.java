@@ -90,7 +90,7 @@ public class AddAndEditActivity extends AppCompatActivity implements View.OnClic
             btnAddNewItem.setVisibility(View.GONE);
             showDetailData();
         }
-        // if empty,Change title page, the add button will be appear .
+        // if empty,Change title page,To Add New .
         else {
             setTitle(R.string.add_title_page);
             hiddenButtons();
@@ -229,13 +229,14 @@ public class AddAndEditActivity extends AppCompatActivity implements View.OnClic
      * @param str get text from EditText .
      * @return true if NOT Null, else return false .
      */
-    private boolean isContentEmpty(String str){
+    private boolean isContentEmpty(String str) {
         boolean mHasContent = false;
-       if (!TextUtils.isEmpty(str.trim())){
-          mHasContent = true ;
-       }
+        if (!TextUtils.isEmpty(str.trim())) {
+            mHasContent = true;
+        }
         return mHasContent;
     }
+
     /**
      * if {@link #currentItemUri } Not empty get all data for this uri .
      */
@@ -245,7 +246,7 @@ public class AddAndEditActivity extends AppCompatActivity implements View.OnClic
                 null,
                 null,
                 null);
-        if (cursor == null && cursor.getCount() < 1) {
+        if (cursor == null) {
             return;
         }
         if (cursor.moveToFirst()) {
@@ -308,10 +309,10 @@ public class AddAndEditActivity extends AppCompatActivity implements View.OnClic
         values.put(COLUMN_SUPPLIER_EMAIL, newSupplierEmail);
         values.put(COLUMN_SUPPLIER_PHONE, Integer.valueOf(newSupplierPhone));
         int rowUpdate = getContentResolver().update(currentItemUri, values, selection, selectionArgs);
-        if (rowUpdate == 0){
-            Toast.makeText(this,getString(R.string.failed_update)+selection,Toast.LENGTH_LONG).show();
-        }else{
-            Toast.makeText(this,getString(R.string.successful_update)+selectionArgs[0],Toast.LENGTH_LONG).show();
+        if (rowUpdate == 0) {
+            Toast.makeText(this, getString(R.string.failed_update) + selection, Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, getString(R.string.successful_update) + selectionArgs[0], Toast.LENGTH_LONG).show();
         }
         Log.i(TAG, "Update successful " + rowUpdate);
     }

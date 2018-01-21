@@ -1,5 +1,5 @@
 <resources>
-	<string name="app_name">InventoryApp</string>
+	<string name="app_name">InventoryApp-Phones</string>
 	<string name="txvEmptyMsg">Empty Products</string>
 	<string name="sale">Sale</string>
 	<string name="productName">Product Name:</string>

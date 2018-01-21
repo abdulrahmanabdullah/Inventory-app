@@ -27,11 +27,10 @@ public class InventoryProvider extends ContentProvider {
     private final static UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH); // result = -1
 
 
-
     // Declare all possible uri accepted .
-    private final static int INVENTORY = 0 ;
-    private final static int INVENTORY_BY_ID = 1 ;
-    private final static int INVENTORY_BY_NAME = 2 ;
+    private final static int INVENTORY = 0;
+    private final static int INVENTORY_BY_ID = 1;
+    private final static int INVENTORY_BY_NAME = 2;
 
     static {
         // declare uri matcher here .
@@ -43,7 +42,8 @@ public class InventoryProvider extends ContentProvider {
         uriMatcher.addURI(CONENT_AUTHORITY, TABLE_NAME + "/*", INVENTORY_BY_NAME);
     }
 
-    InventoryDBHelper helper ;
+    InventoryDBHelper helper;
+
     @Override
     public boolean onCreate() {
         helper = new InventoryDBHelper(getContext());
@@ -54,26 +54,26 @@ public class InventoryProvider extends ContentProvider {
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
         SQLiteDatabase database = helper.getReadableDatabase();
-        Cursor cursor ;
-        switch (uriMatcher.match(uri)){
+        Cursor cursor;
+        switch (uriMatcher.match(uri)) {
             case INVENTORY:
-                cursor = database.query(TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);
+                cursor = database.query(TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
                 break;
 
             case INVENTORY_BY_ID:
-                selection = _ID +" = ?";
+                selection = _ID + " = ?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
-                cursor = database.query(TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);
+                cursor = database.query(TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
                 break;
             case INVENTORY_BY_NAME:
-                selection = _ID +" = ?";
-                selectionArgs = new String[] {uri.getLastPathSegment()};
-                cursor = database.query(TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);
+                selection = _ID + " = ?";
+                selectionArgs = new String[]{uri.getLastPathSegment()};
+                cursor = database.query(TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
                 break;
-                default:
-                    throw new IllegalArgumentException("Failed query data");
+            default:
+                throw new IllegalArgumentException("Failed query data");
         }
-        cursor.setNotificationUri(getContext().getContentResolver(),uri);
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
         return cursor;
     }
 
@@ -87,74 +87,74 @@ public class InventoryProvider extends ContentProvider {
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
 
-        switch (uriMatcher.match(uri)){
+        switch (uriMatcher.match(uri)) {
             case INVENTORY:
             case INVENTORY_BY_ID:
             case INVENTORY_BY_NAME:
-                return insertRecord(uri,values,TABLE_NAME);
-                default:
-                    throw new IllegalArgumentException("Failed insert new data"+uri);
+                return insertRecord(uri, values, TABLE_NAME);
+            default:
+                throw new IllegalArgumentException("Failed insert new data" + uri);
         }
     }
 
     private Uri insertRecord(Uri uri, ContentValues values, String tableName) {
         SQLiteDatabase database = helper.getWritableDatabase();
-        long rowInserted = database.insert(tableName,null,values);
+        long rowInserted = database.insert(tableName, null, values);
         //Check if failed inserted ..
-        if (rowInserted == -1){
-            Log.e(TAG,"Failed inserted ");
+        if (rowInserted == -1) {
+            Log.e(TAG, "Failed inserted ");
             return null;
-        }else{
-            Log.i(TAG,"Successfully inserted");
+        } else {
+            Log.i(TAG, "Successfully inserted");
             // update list after insert data ..
-            getContext().getContentResolver().notifyChange(uri,null);
+            getContext().getContentResolver().notifyChange(uri, null);
         }
-        return ContentUris.withAppendedId(uri,rowInserted);
+        return ContentUris.withAppendedId(uri, rowInserted);
     }
 
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
-        switch (uriMatcher.match(uri)){
+        switch (uriMatcher.match(uri)) {
             case INVENTORY:
-                return deleteRecord(uri,TABLE_NAME,null,null);
+                return deleteRecord(uri, TABLE_NAME, null, null);
             case INVENTORY_BY_ID:
-                selection = _ID+" =?";
+                selection = _ID + " =?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
-                return deleteRecord(uri,TABLE_NAME,selection,selectionArgs);
+                return deleteRecord(uri, TABLE_NAME, selection, selectionArgs);
             case INVENTORY_BY_NAME:
-                selection = COLUMN_NAME+" =?";
-                selectionArgs = new String[] {uri.getLastPathSegment()};
-                return deleteRecord(uri,TABLE_NAME,selection,selectionArgs);
-                default:
-                    throw new IllegalArgumentException("Failed deleted please check uri "+uri);
+                selection = COLUMN_NAME + " =?";
+                selectionArgs = new String[]{uri.getLastPathSegment()};
+                return deleteRecord(uri, TABLE_NAME, selection, selectionArgs);
+            default:
+                throw new IllegalArgumentException("Failed deleted please check uri " + uri);
         }
     }
 
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
-        switch (uriMatcher.match(uri)){
+        switch (uriMatcher.match(uri)) {
             case INVENTORY:
-                return updateRecord(uri,TABLE_NAME,values,selection,selectionArgs);
+                return updateRecord(uri, TABLE_NAME, values, selection, selectionArgs);
             case INVENTORY_BY_ID:
-                selection = _ID+" =?";
+                selection = _ID + " =?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
-                return  updateRecord(uri,TABLE_NAME,values,selection,selectionArgs);
+                return updateRecord(uri, TABLE_NAME, values, selection, selectionArgs);
             case INVENTORY_BY_NAME:
-                selection = COLUMN_NAME+" =?";
+                selection = COLUMN_NAME + " =?";
                 selectionArgs = new String[]{uri.getLastPathSegment()};
-                return  updateRecord(uri,TABLE_NAME,values,selection,selectionArgs);
-                default:
-                    throw new IllegalArgumentException("Failed update record"+uri);
+                return updateRecord(uri, TABLE_NAME, values, selection, selectionArgs);
+            default:
+                throw new IllegalArgumentException("Failed update record" + uri);
         }
     }
 
     private int updateRecord(Uri uri, String tableName, ContentValues values, String selection, String[] args) {
         SQLiteDatabase database = helper.getWritableDatabase();
-        int rowUpdate = database.update(tableName,values,selection,args);
-        if (rowUpdate == 0){
-           Log.e(TAG,"Empty uri"+uri);
-        }else{
-            getContext().getContentResolver().notifyChange(uri,null);
+        int rowUpdate = database.update(tableName, values, selection, args);
+        if (rowUpdate == 0) {
+            Log.e(TAG, "Empty uri" + uri);
+        } else {
+            getContext().getContentResolver().notifyChange(uri, null);
         }
         return rowUpdate;
     }

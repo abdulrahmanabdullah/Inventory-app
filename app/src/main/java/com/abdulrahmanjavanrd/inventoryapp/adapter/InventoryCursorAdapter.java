@@ -94,8 +94,8 @@ public class InventoryCursorAdapter extends CursorAdapter implements View.OnClic
      */
     private String updateQuantity(String q) {
         int qu = Integer.valueOf(q);
-        if (qu == 1) {
-            qu = 1;
+        if (qu <= 0) {
+            qu = 0;
             Toast.makeText(context, context.getString(R.string.set_one_at_least), Toast.LENGTH_SHORT).show();
         } else {
             qu--;

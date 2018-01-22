@@ -1,9 +1,12 @@
 package com.abdulrahmanjavanrd.inventoryapp.activities;
 
+import android.content.DialogInterface;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -12,7 +15,6 @@ import android.widget.Toast;
 
 import com.abdulrahmanjavanrd.inventoryapp.R;
 import com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract;
-import com.abdulrahmanjavanrd.inventoryapp.dialog.DeleteDataDialogFragment;
 
 import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.COLUMN_NAME;
 import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.COLUMN_PRICE;
@@ -53,10 +55,27 @@ public class DeleteAllActivity extends AppCompatActivity {
                 if (cursor.getCount() == 0) {
                     Toast.makeText(DeleteAllActivity.this, getString(R.string.no_data_to_deleted), Toast.LENGTH_LONG).show();
                 } else {
-                    DeleteDataDialogFragment dialog = new DeleteDataDialogFragment();
-                    dialog.show(getFragmentManager(), "");
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(DeleteAllActivity.this);
+                    builder.setMessage(R.string.alert_mes_when_remove_data).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            deleteAllData();
+                            finish();
+                        }
+                    }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (dialog != null)
+                                dialog.dismiss();
+                        }
+                    }).show();
                 }
             }
         });
+    }
+
+    private void deleteAllData() {
+        Uri uri = InventoryContract.InventoryEntry.CONTENT_URI;
+        getContentResolver().delete(uri, null, null);
     }
 }

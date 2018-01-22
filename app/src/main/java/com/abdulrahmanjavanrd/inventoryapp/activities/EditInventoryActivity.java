@@ -1,12 +1,14 @@
 package com.abdulrahmanjavanrd.inventoryapp.activities;
 
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -24,23 +26,18 @@ import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.Invento
 import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.COLUMN_SUPPLIER_EMAIL;
 import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.COLUMN_SUPPLIER_NAME;
 import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.COLUMN_SUPPLIER_PHONE;
-import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.CONTENT_URI;
-import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.DEFAULT_QUANTITY;
-import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.DEFAULT_SUPPLIER_EMAIL;
-import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.DEFAULT_SUPPLIER_NAME;
-import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.DEFAULT_SUPPLIER_PHONE;
 
 /**
  * @author Abdulrahman.A on 16/01/2018.
  */
 
-public class AddAndEditActivity extends AppCompatActivity implements View.OnClickListener {
+public class EditInventoryActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Intent mIntent;
     private Uri currentItemUri;
-    private final String TAG = AddAndEditActivity.class.getSimpleName();
+    private final String TAG = EditInventoryActivity.class.getSimpleName();
     EditText edProductName, edPrice, edQuantity, edSupplierName, edSupplierEmail, edSupplierPhone;
-    Button btnIncrement, btnDecrement, btnAddNewItem, btnUpdateItem, btnDeleteItem, btnContact;
+    Button btnIncrement, btnDecrement, btnUpdateItem, btnDeleteItem, btnContact;
     Toolbar toolbar;
     private int quantityCounter;
 
@@ -70,9 +67,6 @@ public class AddAndEditActivity extends AppCompatActivity implements View.OnClic
         /**This Button for decrement use {@link #decrementQuantity()} method.*/
         btnDecrement = findViewById(R.id.btn_decrement);
         btnDecrement.setOnClickListener(this);
-        /**  This button for add new items, using in {@link #insertNewItem()}  .*/
-        btnAddNewItem = findViewById(R.id.btn_add_new_item);
-        btnAddNewItem.setOnClickListener(this);
         /** This Button for update current item , use {@link #updateRecord()}  */
         btnUpdateItem = findViewById(R.id.btn_update_item);
         btnUpdateItem.setOnClickListener(this);
@@ -87,28 +81,37 @@ public class AddAndEditActivity extends AppCompatActivity implements View.OnClic
         if (currentItemUri != null) {
             setTitle(R.string.edit_title_page);
             // Add button
-            btnAddNewItem.setVisibility(View.GONE);
             showDetailData();
         }
         // if empty,Change title page,To Add New .
-        else {
-            setTitle(R.string.add_title_page);
-            hiddenButtons();
-        }
+//        else {
+//            setTitle(R.string.add_title_page);
+//            hiddenButtons();
+//        }
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_add_new_item:
-                insertNewItem();
-                break;
             case R.id.btn_update_item:
                 updateRecord();
                 break;
             case R.id.btn_delete_item:
-                deleteRecord();
-                finish();
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage(getString(R.string.alert_mes_when_remove_one_item)).setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteRecord();
+                        finish();
+                    }
+                }).setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (dialog !=null){
+                            dialog.dismiss();
+                        }
+                    }
+                }).show();
                 break;
             case R.id.btn_contact:
                 supplierContact();
@@ -135,8 +138,8 @@ public class AddAndEditActivity extends AppCompatActivity implements View.OnClic
      * But first check the {@link #quantityCounter} it's not = 0
      */
     private void decrementQuantity() {
-        if (quantityCounter <= 1) {
-            quantityCounter = 1;
+        if (quantityCounter <= 0) {
+            quantityCounter = 0;
             updateQuantity(quantityCounter);
             Toast.makeText(this, getString(R.string.set_one_at_least), Toast.LENGTH_LONG).show();
         } else {
@@ -153,88 +156,7 @@ public class AddAndEditActivity extends AppCompatActivity implements View.OnClic
         String[] selectionArgs = null;
         int rowDeleted = getContentResolver().delete(currentItemUri, selection, selectionArgs);
         Log.i(TAG, "you delete " + rowDeleted);
-        Toast.makeText(this, "Delete this item", Toast.LENGTH_LONG).show();
-    }
-
-    /**
-     * Insert data into dataBase, with what client input
-     */
-    private void insertNewItem() {
-        String name = edProductName.getText().toString();
-        String price = edPrice.getText().toString();
-        String quantity = edQuantity.getText().toString();
-        String supplierName = edSupplierName.getText().toString();
-        String supplierEmail = edSupplierEmail.getText().toString();
-        String supplierPhone = edSupplierPhone.getText().toString();
-        //First Check the uri Is Null .
-        if (currentItemUri == null) {
-            Uri uri = CONTENT_URI;
-            ContentValues values = new ContentValues();
-            //Check Product Name it's required  than put data ...
-            if (isContentEmpty(name)) {
-                values.put(COLUMN_NAME, name);
-            } else {
-                Toast.makeText(this, getString(R.string.fill_product_name), Toast.LENGTH_LONG).show();
-                return;
-            }
-            // Then check price,any items should contain price.
-            if (isContentEmpty(price)) {
-                values.put(COLUMN_PRICE, Integer.parseInt(price));
-            } else {
-                Toast.makeText(this, getString(R.string.what_price) + name, Toast.LENGTH_LONG).show();
-                return;
-            }
-            // Then check Quantity , if empty , get the Default value,And forward
-            if (isContentEmpty(quantity)) {
-                values.put(COLUMN_QUANTITY, Integer.parseInt(quantity));
-            } else {
-                values.put(COLUMN_QUANTITY, DEFAULT_QUANTITY);
-            }
-            // Last Condition check the supplier info,
-            if (isContentEmpty(supplierName)) {
-                values.put(COLUMN_SUPPLIER_NAME, supplierName);
-            } else {
-                Toast.makeText(this, getString(R.string.add_default_supplier_name), Toast.LENGTH_SHORT).show();
-                values.put(COLUMN_SUPPLIER_NAME, DEFAULT_SUPPLIER_NAME);
-            }
-            if (isContentEmpty(supplierEmail)) {
-                values.put(COLUMN_SUPPLIER_EMAIL, supplierEmail);
-            } else {
-                Toast.makeText(this, getString(R.string.add_default_supplier_email), Toast.LENGTH_SHORT).show();
-                values.put(COLUMN_SUPPLIER_EMAIL, DEFAULT_SUPPLIER_EMAIL);
-            }
-            if (isContentEmpty(supplierPhone)) {
-                values.put(COLUMN_SUPPLIER_PHONE, Integer.parseInt(supplierPhone));
-            } else {
-                Toast.makeText(this, getString(R.string.add_default_supplier_phone), Toast.LENGTH_SHORT).show();
-                values.put(COLUMN_SUPPLIER_PHONE, DEFAULT_SUPPLIER_PHONE);
-            }
-            // After check all fields, it's okay to send data to database .
-            Uri rowUri = getContentResolver().insert(uri, values);
-            //Check if add data successful..
-            if (rowUri == null) {
-                Toast.makeText(this, getString(R.string.failed_add_new_item), Toast.LENGTH_LONG).show();
-            } else {
-                Log.i(TAG, "inserted data = " + rowUri);
-                Toast.makeText(this, getString(R.string.successful_insert), Toast.LENGTH_LONG).show();
-            }
-        }
-        // if Not empty uri  ..
-        else {
-            Toast.makeText(this, getString(R.string.uri_is_not_empty), Toast.LENGTH_LONG).show();
-        }
-    }
-
-    /**
-     * @param str get text from EditText .
-     * @return true if NOT Null, else return false .
-     */
-    private boolean isContentEmpty(String str) {
-        boolean mHasContent = false;
-        if (!TextUtils.isEmpty(str.trim())) {
-            mHasContent = true;
-        }
-        return mHasContent;
+        Toast.makeText(this, getString(R.string.successful_deleted), Toast.LENGTH_LONG).show();
     }
 
     /**
@@ -265,7 +187,7 @@ public class AddAndEditActivity extends AppCompatActivity implements View.OnClic
             /** save the current quantity value in {@link #quantityCounter} to increment and decrement */
             quantityCounter = _Quantity;
             updateQuantity(_Quantity);
-            edQuantity.setText(String.valueOf(_Quantity));
+//            edQuantity.setText(String.valueOf(_Quantity));
             // Price
             int _Price = cursor.getInt(ColumnPrice);
             edPrice.setText(String.valueOf(_Price));
@@ -297,17 +219,48 @@ public class AddAndEditActivity extends AppCompatActivity implements View.OnClic
         ContentValues values = new ContentValues();
         // Start take new values ... And pass it to the ContentValues ..
         String newName = edProductName.getText().toString();
+        if (!TextUtils.isEmpty(newName)){
+            values.put(COLUMN_NAME, newName);
+        }else{
+           Toast.makeText(this,getString(R.string.fill_product_name),Toast.LENGTH_SHORT).show();
+           return;
+        }
         String newPrice = edPrice.getText().toString();
+        if (!TextUtils.isEmpty(newPrice)){
+            values.put(COLUMN_PRICE, Integer.valueOf(newPrice));
+        }else{
+            Toast.makeText(this,getString(R.string.what_price)+newName,Toast.LENGTH_SHORT).show();
+            return;
+        }
         String newQuantity = edQuantity.getText().toString();
+        if (!TextUtils.isEmpty(newQuantity)){
+            updateQuantity(Integer.valueOf(newQuantity));
+            values.put(COLUMN_QUANTITY, Integer.valueOf(newQuantity));
+        }else{
+           Toast.makeText(this,getString(R.string.what_quatity),Toast.LENGTH_SHORT).show();
+           return;
+        }
         String newSupplierName = edSupplierName.getText().toString();
+        if (!TextUtils.isEmpty(newSupplierName)){
+            values.put(COLUMN_SUPPLIER_NAME, newSupplierName);
+        }else{
+            Toast.makeText(this,getString(R.string.please_enter_supplier_name),Toast.LENGTH_SHORT).show();
+            return;
+        }
         String newSupplierEmail = edSupplierEmail.getText().toString();
+        if (!TextUtils.isEmpty(newSupplierEmail)){
+            values.put(COLUMN_SUPPLIER_EMAIL, newSupplierEmail);
+        }else{
+            Toast.makeText(this,getString(R.string.please_enter_supplier_email),Toast.LENGTH_SHORT).show();
+            return;
+        }
         String newSupplierPhone = edSupplierPhone.getText().toString();
-        values.put(COLUMN_NAME, newName);
-        values.put(COLUMN_PRICE, Integer.valueOf(newPrice));
-        values.put(COLUMN_QUANTITY, Integer.valueOf(newQuantity));
-        values.put(COLUMN_SUPPLIER_NAME, newSupplierName);
-        values.put(COLUMN_SUPPLIER_EMAIL, newSupplierEmail);
-        values.put(COLUMN_SUPPLIER_PHONE, Integer.valueOf(newSupplierPhone));
+        if (!TextUtils.isEmpty(newSupplierPhone)){
+            values.put(COLUMN_SUPPLIER_PHONE,Integer.parseInt(newSupplierPhone));
+        }else{
+            Toast.makeText(this,getString(R.string.please_enter_supplier_phone),Toast.LENGTH_SHORT).show();
+            return;
+        }
         int rowUpdate = getContentResolver().update(currentItemUri, values, selection, selectionArgs);
         if (rowUpdate == 0) {
             Toast.makeText(this, getString(R.string.failed_update) + selection, Toast.LENGTH_LONG).show();
@@ -325,19 +278,5 @@ public class AddAndEditActivity extends AppCompatActivity implements View.OnClic
         if (mIntent.resolveActivity(getPackageManager()) != null) {
             startActivity(mIntent);
         }
-    }
-
-    /**
-     * This method hidden 5  buttons it's :
-     * {@link #btnDecrement} ,{@link #btnUpdateItem},{@link #btnIncrement}
-     * {@link #btnContact},{@link #btnDeleteItem}
-     * When {@link #currentItemUri} == null
-     */
-    private void hiddenButtons() {
-        btnUpdateItem.setVisibility(View.GONE);
-        btnDeleteItem.setVisibility(View.GONE);
-        btnDecrement.setVisibility(View.GONE);
-        btnContact.setVisibility(View.GONE);
-        btnIncrement.setVisibility(View.GONE);
     }
 }

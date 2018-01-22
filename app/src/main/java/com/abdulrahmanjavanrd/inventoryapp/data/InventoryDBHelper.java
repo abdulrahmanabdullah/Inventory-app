@@ -33,10 +33,6 @@ public class InventoryDBHelper  extends SQLiteOpenHelper {
             + COLUMN_SUPPLIER_EMAIL+ " TEXT ,"
             + COLUMN_SUPPLIER_PHONE+ " INTEGER "
             +");";
-
-
-    // when upgrade database .
-    private final static String SQL_DELETE_TABLE = "DROP TABLE IF EXISTS "+TABLE_NAME;
     public InventoryDBHelper(Context context){
         super(context, INVENTORY_DATABASE_NAME,null,INVENTORY_DATABASE_V);
     }
@@ -48,7 +44,7 @@ public class InventoryDBHelper  extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            db.execSQL(SQL_DELETE_TABLE);
+            db.execSQL("DROP TABLE IF EXISTS "+ TABLE_NAME);
             onCreate(db);
     }
 }

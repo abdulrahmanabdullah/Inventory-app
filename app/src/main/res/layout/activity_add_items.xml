@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:visibility="visible"
-    tools:context=".activities.EditInventoryActivity">
+    tools:context=".activities.AddInventoryActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBarLayout2"
@@ -124,32 +124,32 @@
         android:id="@+id/ed_quantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
         android:hint="@string/hint_quantity"
         android:inputType="number"
-        app:layout_constraintBaseline_toBaselineOf="@+id/txv_product_quantity"
-        app:layout_constraintStart_toStartOf="@+id/ed_price" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/btn_decrement"
+        app:layout_constraintStart_toEndOf="@+id/btn_decrement" />
 
     <Button
         android:id="@+id/btn_increment"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="16dp"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:layout_marginEnd="8dp"
         android:background="@color/secondaryDarkColor"
         android:text="@string/plus"
         android:textColor="@color/secondaryLightColor"
         app:layout_constraintBaseline_toBaselineOf="@+id/ed_quantity"
-        app:layout_constraintStart_toEndOf="@+id/ed_quantity" />
+        app:layout_constraintEnd_toEndOf="@+id/ed_price" />
 
     <Button
         android:id="@+id/btn_decrement"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="16dp"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
         android:background="@color/secondaryDarkColor"
         android:text="@string/subtract"
         android:textColor="@color/secondaryLightColor"
-        app:layout_constraintBaseline_toBaselineOf="@+id/btn_increment"
-        app:layout_constraintStart_toEndOf="@+id/btn_increment" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/txv_product_quantity"
+        app:layout_constraintStart_toStartOf="@+id/ed_price" />
 
     <EditText
         android:id="@+id/ed_supplier_name"
@@ -160,7 +160,7 @@
         android:inputType="textPersonName"
         app:layout_constraintBaseline_toBaselineOf="@+id/txv_supplier_name"
         app:layout_constraintEnd_toEndOf="@+id/ed_price"
-        app:layout_constraintStart_toStartOf="@+id/ed_quantity" />
+        app:layout_constraintStart_toStartOf="@+id/btn_decrement" />
 
     <EditText
         android:id="@+id/ed_supplier_email"
@@ -186,42 +186,17 @@
 
 
     <Button
-        android:id="@+id/btn_update_item"
+        android:id="@+id/btn_add_new_item"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="76dp"
+        android:layout_marginTop="16dp"
         android:background="@color/secondaryDarkColor"
-        android:text="@string/update_item"
+        android:text="@string/add_new_item"
         android:textColor="@color/secondaryLightColor"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ed_supplier_phone" />
 
-    <Button
-        android:id="@+id/btn_delete_item"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@color/secondaryDarkColor"
-        android:text="@string/delete"
-        android:textColor="@color/secondaryLightColor"
-        app:layout_constraintEnd_toEndOf="@+id/btn_update_item"
-        app:layout_constraintStart_toStartOf="@+id/btn_update_item"
-        app:layout_constraintTop_toBottomOf="@+id/btn_update_item" />
-
-    <Button
-        android:id="@+id/btn_contact"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@color/secondaryDarkColor"
-        android:text="@string/contact"
-        android:textColor="@color/secondaryLightColor"
-        app:layout_constraintEnd_toEndOf="@+id/btn_delete_item"
-        app:layout_constraintStart_toStartOf="@+id/btn_delete_item"
-        app:layout_constraintTop_toBottomOf="@+id/btn_delete_item" />
-    <!--Linear Layout contain three button .-->
 </android.support.constraint.ConstraintLayout>

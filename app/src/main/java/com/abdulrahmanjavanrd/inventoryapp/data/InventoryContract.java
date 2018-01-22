@@ -42,14 +42,5 @@ public final class InventoryContract {
         // SupplierPhone field data type = int .
         public static final String COLUMN_SUPPLIER_PHONE = "SupplierPhone";
 
-
-        // If Quantity Empty ..
-        public static final int DEFAULT_QUANTITY = 5;
-        //IF SupplierName Empty ..
-        public static final String DEFAULT_SUPPLIER_NAME = "Abdulrahman.A";
-        //IF SupplierEmail Empty ..
-        public static final String DEFAULT_SUPPLIER_EMAIL = "nfs056@gmail.com";
-        // If SupplierPhone Empty ..
-        public static final int DEFAULT_SUPPLIER_PHONE = 1234567890;
     }
 }

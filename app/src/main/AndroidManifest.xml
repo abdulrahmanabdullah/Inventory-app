@@ -9,7 +9,7 @@
 		android:roundIcon="@mipmap/ic_launcher_round"
 		android:supportsRtl="true"
 		android:theme="@style/AppTheme">
-		<activity android:name=".MainActivity">
+		<activity android:name=".activities.DetailsActivity">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 
@@ -22,17 +22,22 @@
 			android:name=".data.InventoryProvider"
 			android:exported="false"/>
 
-		<activity android:name=".activities.AddAndEditActivity"
-			android:parentActivityName=".MainActivity">
+		<activity android:name=".activities.EditInventoryActivity"
+			android:parentActivityName=".activities.DetailsActivity">
 			<meta-data android:name="android.support.PARENT_ACTIVITY"
-				android:value=".MainActivity"/>
+				android:value=".activities.DetailsActivity"/>
 		</activity>
 
 		<activity android:name=".activities.DeleteAllActivity"
 			android:label="@string/delete_activity_title"
-			android:parentActivityName=".MainActivity">
+			android:parentActivityName=".activities.DetailsActivity">
 		 <meta-data android:name="android.support.PARENT_ACTIVITY"
-			 android:value=".MainActivity"/>
+			 android:value=".activities.DetailsActivity"/>
+		</activity>
+
+		<activity android:name=".activities.AddInventoryActivity">
+			<meta-data android:name="android.support.PARENT_ACTIVITY"
+				android:value=".activities.DetailsActivity"/>
 		</activity>
 	</application>
 

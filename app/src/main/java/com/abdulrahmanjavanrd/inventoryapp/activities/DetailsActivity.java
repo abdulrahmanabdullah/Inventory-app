@@ -1,4 +1,4 @@
-package com.abdulrahmanjavanrd.inventoryapp;
+package com.abdulrahmanjavanrd.inventoryapp.activities;
 
 import android.app.LoaderManager;
 import android.content.CursorLoader;
@@ -21,8 +21,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.abdulrahmanjavanrd.inventoryapp.activities.DeleteAllActivity;
-import com.abdulrahmanjavanrd.inventoryapp.activities.AddAndEditActivity;
+import com.abdulrahmanjavanrd.inventoryapp.R;
 import com.abdulrahmanjavanrd.inventoryapp.adapter.InventoryCursorAdapter;
 import com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract;
 
@@ -34,10 +33,10 @@ import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.Invento
 import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.COLUMN_SUPPLIER_PHONE;
 import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry._ID;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>, NavigationView.OnNavigationItemSelectedListener {
+public class DetailsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>, NavigationView.OnNavigationItemSelectedListener {
 
 
-    private final String TAG = MainActivity.class.getSimpleName();
+    private final String TAG = DetailsActivity.class.getSimpleName();
     private final int LOADER_TASK = 0;
     Toolbar toolbar;
     ListView listView;
@@ -50,18 +49,18 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         setContentView(R.layout.activity_main);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        /** when list is empty ...*/
+        /* when list is empty ...*/
         listView = findViewById(R.id.list_view_item);
         View emptyView = findViewById(R.id.empty_view);
         listView.setEmptyView(emptyView);
-        /** initialize  adapter*/
+        /* initialize  adapter*/
         adapter = new InventoryCursorAdapter(this, null);
         listView.setAdapter(adapter);
-        /** set onItemClickListener with CursorAdapter class */
+        /* set onItemClickListener with CursorAdapter class */
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent mIntent = new Intent(MainActivity.this, AddAndEditActivity.class);
+                Intent mIntent = new Intent(DetailsActivity.this, EditInventoryActivity.class);
                 Uri uri = Uri.withAppendedPath(InventoryContract.InventoryEntry.CONTENT_URI, String.valueOf(id));
                 Log.i(TAG, "onItemClick: uri = " + uri);
                 mIntent.setData(uri);
@@ -78,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent mIntent = new Intent(MainActivity.this, AddAndEditActivity.class);
+                Intent mIntent = new Intent(DetailsActivity.this, AddInventoryActivity.class);
                 startActivity(mIntent);
             }
         });
@@ -105,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         String[] projection = {
                 _ID, COLUMN_NAME, COLUMN_PRICE, COLUMN_QUANTITY, COLUMN_SUPPLIER_NAME, COLUMN_SUPPLIER_EMAIL, COLUMN_SUPPLIER_PHONE
         };
-        return new CursorLoader(MainActivity.this, InventoryContract.InventoryEntry.CONTENT_URI, projection, null, null, null);
+        return new CursorLoader(DetailsActivity.this, InventoryContract.InventoryEntry.CONTENT_URI, projection, null, null, null);
     }
 
     @Override

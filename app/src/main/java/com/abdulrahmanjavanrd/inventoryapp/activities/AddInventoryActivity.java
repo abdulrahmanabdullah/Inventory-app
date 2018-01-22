@@ -46,12 +46,12 @@ public class AddInventoryActivity extends AppCompatActivity {
         }
 
         // Declare EditText .
-        edProductName = findViewById(R.id.ed_name);
-        edPrice = findViewById(R.id.ed_price);
-        edQuantity = findViewById(R.id.ed_quantity);
-        edSupplierName = findViewById(R.id.ed_supplier_name);
-        edSupplierEmail = findViewById(R.id.ed_supplier_email);
-        edSupplierPhone = findViewById(R.id.ed_supplier_phone);
+        edProductName = findViewById(R.id.txv_name);
+        edPrice = findViewById(R.id.txv_price);
+        edQuantity = findViewById(R.id.txv_quantity);
+        edSupplierName = findViewById(R.id.txv_supplier_name_details);
+        edSupplierEmail = findViewById(R.id.txv_supplier_email_details);
+        edSupplierPhone = findViewById(R.id.txv_supplier_phone_details);
         btnAddNewItem = findViewById(R.id.btn_add_new_item);
         btnAddNewItem.setOnClickListener(new View.OnClickListener() {
             @Override

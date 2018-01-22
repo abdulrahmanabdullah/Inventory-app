@@ -26,10 +26,10 @@
         android:id="@+id/txv_product_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/primaryTextColor"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/productName"
+        android:textColor="@color/primaryTextColor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout2" />
 
@@ -42,12 +42,12 @@
 
     <TextView
         android:id="@+id/txv_product_price"
-        android:textColor="@color/primaryTextColor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:text="@string/productPrice"
+        android:textColor="@color/primaryTextColor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txv_product_name" />
 
@@ -57,8 +57,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
-        android:textColor="@color/primaryTextColor"
         android:text="@string/productQuantity"
+        android:textColor="@color/primaryTextColor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txv_product_price" />
 
@@ -67,9 +67,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:textColor="@color/primaryTextColor"
         android:layout_marginTop="24dp"
         android:text="@string/supplierName"
+        android:textColor="@color/primaryTextColor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txv_product_quantity" />
 
@@ -79,8 +79,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
-        android:textColor="@color/primaryTextColor"
         android:text="@string/supplierEmail"
+        android:textColor="@color/primaryTextColor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txv_supplier_name" />
 
@@ -96,12 +96,14 @@
         app:layout_constraintTop_toBottomOf="@+id/txv_supplier_email" />
 
     <EditText
-        android:id="@+id/ed_name"
+        android:id="@+id/txv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="40dp"
         android:layout_marginStart="8dp"
+        android:descendantFocusability="beforeDescendants"
         android:ems="10"
+        android:focusableInTouchMode="true"
         android:hint="@string/hint_product_name"
         android:inputType="textPersonName"
         app:layout_constraintBaseline_toBaselineOf="@+id/txv_product_name"
@@ -109,22 +111,26 @@
         app:layout_constraintStart_toStartOf="@+id/guideline2" />
 
     <EditText
-        android:id="@+id/ed_price"
+        android:id="@+id/txv_price"
         android:layout_width="212dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
+        android:descendantFocusability="beforeDescendants"
         android:ems="10"
+        android:focusableInTouchMode="true"
         android:hint="@string/hint_price"
         android:inputType="number"
         app:layout_constraintBaseline_toBaselineOf="@+id/txv_product_price"
-        app:layout_constraintEnd_toEndOf="@+id/ed_name"
-        app:layout_constraintStart_toStartOf="@+id/ed_name" />
+        app:layout_constraintEnd_toEndOf="@+id/txv_name"
+        app:layout_constraintStart_toStartOf="@+id/txv_name" />
 
     <EditText
-        android:id="@+id/ed_quantity"
+        android:id="@+id/txv_quantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
+        android:descendantFocusability="beforeDescendants"
+        android:focusableInTouchMode="true"
         android:hint="@string/hint_quantity"
         android:inputType="number"
         app:layout_constraintBaseline_toBaselineOf="@+id/btn_decrement"
@@ -138,8 +144,8 @@
         android:background="@color/secondaryDarkColor"
         android:text="@string/plus"
         android:textColor="@color/secondaryLightColor"
-        app:layout_constraintBaseline_toBaselineOf="@+id/ed_quantity"
-        app:layout_constraintEnd_toEndOf="@+id/ed_price" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/txv_quantity"
+        app:layout_constraintEnd_toEndOf="@+id/txv_price" />
 
     <Button
         android:id="@+id/btn_decrement"
@@ -149,40 +155,46 @@
         android:text="@string/subtract"
         android:textColor="@color/secondaryLightColor"
         app:layout_constraintBaseline_toBaselineOf="@+id/txv_product_quantity"
-        app:layout_constraintStart_toStartOf="@+id/ed_price" />
+        app:layout_constraintStart_toStartOf="@+id/txv_price" />
 
     <EditText
-        android:id="@+id/ed_supplier_name"
+        android:id="@+id/txv_supplier_name_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:descendantFocusability="beforeDescendants"
         android:ems="10"
+        android:focusableInTouchMode="true"
         android:hint="@string/hint_supplier_name"
         android:inputType="textPersonName"
         app:layout_constraintBaseline_toBaselineOf="@+id/txv_supplier_name"
-        app:layout_constraintEnd_toEndOf="@+id/ed_price"
+        app:layout_constraintEnd_toEndOf="@+id/txv_price"
         app:layout_constraintStart_toStartOf="@+id/btn_decrement" />
 
     <EditText
-        android:id="@+id/ed_supplier_email"
+        android:id="@+id/txv_supplier_email_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:descendantFocusability="beforeDescendants"
         android:ems="10"
+        android:focusableInTouchMode="true"
         android:hint="@string/hint_supplier_email"
         android:inputType="textEmailAddress"
         app:layout_constraintBaseline_toBaselineOf="@+id/txv_supplier_email"
-        app:layout_constraintEnd_toEndOf="@+id/ed_supplier_name"
-        app:layout_constraintStart_toStartOf="@+id/ed_supplier_name" />
+        app:layout_constraintEnd_toEndOf="@+id/txv_supplier_name_details"
+        app:layout_constraintStart_toStartOf="@+id/txv_supplier_name_details" />
 
     <EditText
-        android:id="@+id/ed_supplier_phone"
+        android:id="@+id/txv_supplier_phone_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:descendantFocusability="beforeDescendants"
         android:ems="10"
+        android:focusableInTouchMode="true"
         android:hint="@string/hint_supplier_phone"
         android:inputType="phone"
         app:layout_constraintBaseline_toBaselineOf="@+id/txv_supplier_phone"
-        app:layout_constraintEnd_toEndOf="@+id/ed_supplier_email"
-        app:layout_constraintStart_toStartOf="@+id/ed_supplier_email" />
+        app:layout_constraintEnd_toEndOf="@+id/txv_supplier_email_details"
+        app:layout_constraintStart_toStartOf="@+id/txv_supplier_email_details" />
 
 
     <Button
@@ -197,6 +209,6 @@
         android:textColor="@color/secondaryLightColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ed_supplier_phone" />
+        app:layout_constraintTop_toBottomOf="@+id/txv_supplier_phone_details" />
 
 </android.support.constraint.ConstraintLayout>

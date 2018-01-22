@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Inventory-app.iml" filepath="$PROJECT_DIR$/.idea/Inventory-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Inventory-app-master.iml" filepath="$PROJECT_DIR$/Inventory-app-master.iml" />
       <module fileurl="file://Z:\AndroidProject\Inventory-app\Inventory-app-master.iml" filepath="Z:\AndroidProject\Inventory-app\Inventory-app-master.iml" />
       <module fileurl="file://Z:\AndroidProject\Inventory-app\InventoryApp.iml" filepath="Z:\AndroidProject\Inventory-app\InventoryApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />

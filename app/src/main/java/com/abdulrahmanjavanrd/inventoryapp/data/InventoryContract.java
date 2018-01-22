@@ -14,13 +14,15 @@ public final class InventoryContract {
     public static final String CONENT_AUTHORITY = "com.abdulrahmanjavanrd.inventoryapp.InventoryProvider";
 
     // Base uri it's = content://com.abdulrahmanjavanrd.inventoryapp.InventoryProvider/inventories/21
-    private static final Uri  BASE_URI = Uri.parse("content://"+CONENT_AUTHORITY);
+    private static final Uri BASE_URI = Uri.parse("content://" + CONENT_AUTHORITY);
 
     //Table Name .
-    public static final String TABLE_NAME ="inventories";
+    public static final String TABLE_NAME = "inventories";
 
     //Forbidden create new object .
-    private InventoryContract(){}
+    private InventoryContract() {
+        throw new AssertionError("No InventoryContract instance");
+    }
 
     public static final class InventoryEntry implements BaseColumns {
         //This uri i deal with .

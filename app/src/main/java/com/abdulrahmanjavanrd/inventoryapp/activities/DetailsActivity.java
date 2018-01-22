@@ -1,29 +1,21 @@
 package com.abdulrahmanjavanrd.inventoryapp.activities;
 
-import android.app.LoaderManager;
-import android.content.CursorLoader;
 import android.content.Intent;
-import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.abdulrahmanjavanrd.inventoryapp.R;
-import com.abdulrahmanjavanrd.inventoryapp.adapter.InventoryCursorAdapter;
-import com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract;
 
 import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.COLUMN_NAME;
 import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.COLUMN_PRICE;
@@ -31,112 +23,131 @@ import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.Invento
 import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.COLUMN_SUPPLIER_EMAIL;
 import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.COLUMN_SUPPLIER_NAME;
 import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry.COLUMN_SUPPLIER_PHONE;
-import static com.abdulrahmanjavanrd.inventoryapp.data.InventoryContract.InventoryEntry._ID;
 
-public class DetailsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>, NavigationView.OnNavigationItemSelectedListener {
+/**
+ * @author Abdulrahman.A on 16/01/2018.
+ */
 
+public class DetailsActivity extends AppCompatActivity {
 
+    private Intent mIntent;
+    private Uri currentItemUri;
     private final String TAG = DetailsActivity.class.getSimpleName();
-    private final int LOADER_TASK = 0;
+    TextView txvProductName;
+    TextView txvPrice;
+    TextView txvQuantity;
+    TextView txvSupplierName;
+    TextView txvSupplierEmail;
+    TextView txvSupplierPhone;
+    Button btnContact;
     Toolbar toolbar;
-    ListView listView;
-    InventoryCursorAdapter adapter;
-    DrawerLayout drawerLayout;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_details);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        /* when list is empty ...*/
-        listView = findViewById(R.id.list_view_item);
-        View emptyView = findViewById(R.id.empty_view);
-        listView.setEmptyView(emptyView);
-        /* initialize  adapter*/
-        adapter = new InventoryCursorAdapter(this, null);
-        listView.setAdapter(adapter);
-        /* set onItemClickListener with CursorAdapter class */
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent mIntent = new Intent(DetailsActivity.this, EditInventoryActivity.class);
-                Uri uri = Uri.withAppendedPath(InventoryContract.InventoryEntry.CONTENT_URI, String.valueOf(id));
-                Log.i(TAG, "onItemClick: uri = " + uri);
-                mIntent.setData(uri);
-                startActivity(mIntent);
-            }
-        });
-        /** Declare Drawer Id then call {@link #initialDrawer()} */
-        drawerLayout = findViewById(R.id.drawer_layout);
-        initialDrawer();
-        // start loader
-        getLoaderManager().initLoader(LOADER_TASK, null, this);
-        // fab button to add new items ..
-        FloatingActionButton floatingActionButton = findViewById(R.id.fab_insert_data);
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+        // initials intent ..
+        mIntent = getIntent();
+        // Declare EditText .
+        txvProductName = findViewById(R.id.txv_name);
+        txvPrice = findViewById(R.id.txv_price);
+        txvQuantity = findViewById(R.id.txv_quantity);
+        txvSupplierName = findViewById(R.id.txv_supplier_name_details);
+        txvSupplierEmail = findViewById(R.id.txv_supplier_email_details);
+        txvSupplierPhone = findViewById(R.id.txv_supplier_phone_details);
+        /** This Button for contact the supplier, use {@link #supplierContact()} method */
+        btnContact = findViewById(R.id.btn_contact);
+        btnContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent mIntent = new Intent(DetailsActivity.this, AddInventoryActivity.class);
-                startActivity(mIntent);
+                supplierContact();
             }
         });
-    }
 
-    /**
-     * Create ActionBarDrawer and NavigationView
-     */
-    private void initialDrawer() {
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawerLayout, toolbar, R.string.navigation_open, R.string.navigation_close
-        );
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-    }
-
-
-    // Start Loader
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        String[] projection = {
-                _ID, COLUMN_NAME, COLUMN_PRICE, COLUMN_QUANTITY, COLUMN_SUPPLIER_NAME, COLUMN_SUPPLIER_EMAIL, COLUMN_SUPPLIER_PHONE
-        };
-        return new CursorLoader(DetailsActivity.this, InventoryContract.InventoryEntry.CONTENT_URI, projection, null, null, null);
+        // Check uri Not empty,Then query the current data .
+        currentItemUri = mIntent.getData();
+        if (currentItemUri != null) {
+            setTitle(R.string.edit_title_page);
+            showDetailData();
+        } else {
+            Toast.makeText(this, getString(R.string.uri_is_empty), Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        adapter.swapCursor(data);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-        adapter.swapCursor(null);
-    }
-    // End Loader
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.nav_delete_all_items:
-                Intent mIntent = new Intent(this, DeleteAllActivity.class);
-                startActivity(mIntent);
-                drawerLayout.closeDrawer(GravityCompat.START);
+            case R.id.product_update:
+                Intent intent = new Intent(this, UpdateActivity.class);
+                //TODO: send uri to update activity .
+                intent.setData(currentItemUri);
+                startActivity(intent);
                 return true;
         }
         return false;
     }
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
+    /**
+     * if {@link #currentItemUri } Not empty get all data for this uri .
+     */
+    private void showDetailData() {
+        Cursor cursor = getContentResolver().query(currentItemUri,
+                null,
+                null,
+                null,
+                null);
+        if (cursor == null) {
+            return;
+        }
+        if (cursor.moveToFirst()) {
+            // find column attribute ..
+            int ColumnName = cursor.getColumnIndex(COLUMN_NAME);
+            int ColumnQuantity = cursor.getColumnIndex(COLUMN_QUANTITY);
+            int ColumnPrice = cursor.getColumnIndex(COLUMN_PRICE);
+            int ColumnSupplierName = cursor.getColumnIndex(COLUMN_SUPPLIER_NAME);
+            int ColumnSupplierEmail = cursor.getColumnIndex(COLUMN_SUPPLIER_EMAIL);
+            int ColumnSupplierPhone = cursor.getColumnIndex(COLUMN_SUPPLIER_PHONE);
+            // Extract out the values And set Text ..
+            String _Name = cursor.getString(ColumnName);
+            txvProductName.setText(_Name);
+            // Quantity
+            int _Quantity = cursor.getInt(ColumnQuantity);
+            /** save the current quantity value in {@link #quantityCounter} to increment and decrement */
+            txvQuantity.setText(String.valueOf(_Quantity));
+            // Price
+            int _Price = cursor.getInt(ColumnPrice);
+            txvPrice.setText(String.valueOf(_Price));
+            // Supplier Name
+            String supplierName = cursor.getString(ColumnSupplierName);
+            txvSupplierName.setText(supplierName);
+            // Supplier Email
+            String supplierEmail = cursor.getString(ColumnSupplierEmail);
+            txvSupplierEmail.setText(supplierEmail);
+            // Supplier phone
+            int supplierPhone = cursor.getInt(ColumnSupplierPhone);
+            txvSupplierPhone.setText(String.valueOf(supplierPhone));
+        }
+    }
+
+    // open Phone Dial to call the supplier .
+    private void supplierContact() {
+        mIntent = new Intent(Intent.ACTION_DIAL);
+        String phoneNumber = txvSupplierPhone.getText().toString();
+        mIntent.setData(Uri.parse("tel:" + phoneNumber));
+        if (mIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(mIntent);
         }
     }
 }

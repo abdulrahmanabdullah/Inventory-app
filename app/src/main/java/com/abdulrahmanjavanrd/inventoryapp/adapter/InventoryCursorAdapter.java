@@ -89,18 +89,18 @@ public class InventoryCursorAdapter extends CursorAdapter implements View.OnClic
      * First take the _Quantity value and check it's equal the minimum number,
      * If yes set the _Quantity = 1 , No decrement _Quantity .
      *
-     * @param q = current value of quantity than converted to  String.valueOf(_Quantity value )
+     * @param quantityValue = current value of quantity than converted to  String.valueOf(_Quantity value )
      * @return the int of @param q
      */
-    private String updateQuantity(String q) {
-        int qu = Integer.valueOf(q);
-        if (qu <= 0) {
-            qu = 0;
+    private String updateQuantity(String quantityValue) {
+        int quantityParam = Integer.valueOf(quantityValue);
+        if (quantityParam <= 0) {
+            quantityParam = 0;
             Toast.makeText(context, context.getString(R.string.set_one_at_least), Toast.LENGTH_SHORT).show();
         } else {
-            qu--;
+            quantityParam--;
         }
-        return String.valueOf(qu);
+        return String.valueOf(quantityParam);
     }
 
     @Override

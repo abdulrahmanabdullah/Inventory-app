@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="com.abdulrahmanjavanrd.inventoryapp">
 
+	<uses-permission android:name="android.permission.CALL_PHONE" />
 	<application
 		android:allowBackup="true"
 		android:icon="@mipmap/ic_launcher"
@@ -9,7 +10,7 @@
 		android:roundIcon="@mipmap/ic_launcher_round"
 		android:supportsRtl="true"
 		android:theme="@style/AppTheme">
-		<activity android:name=".activities.DetailsActivity">
+		<activity android:name=".activities.MainActivity">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 
@@ -18,26 +19,39 @@
 		</activity>
 
 		<provider
-			android:authorities="com.abdulrahmanjavanrd.inventoryapp.InventoryProvider"
 			android:name=".data.InventoryProvider"
-			android:exported="false"/>
+			android:authorities="com.abdulrahmanjavanrd.inventoryapp.InventoryProvider"
+			android:exported="false" />
 
-		<activity android:name=".activities.EditInventoryActivity"
-			android:parentActivityName=".activities.DetailsActivity">
-			<meta-data android:name="android.support.PARENT_ACTIVITY"
-				android:value=".activities.DetailsActivity"/>
+		<activity
+			android:name=".activities.DetailsActivity"
+			android:parentActivityName=".activities.MainActivity">
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+				android:value=".activities.MainActivity" />
 		</activity>
 
-		<activity android:name=".activities.DeleteAllActivity"
+		<activity
+			android:name=".activities.DeleteAllActivity"
 			android:label="@string/delete_activity_title"
-			android:parentActivityName=".activities.DetailsActivity">
-		 <meta-data android:name="android.support.PARENT_ACTIVITY"
-			 android:value=".activities.DetailsActivity"/>
+			android:parentActivityName=".activities.MainActivity">
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+				android:value=".activities.MainActivity" />
 		</activity>
 
 		<activity android:name=".activities.AddInventoryActivity">
-			<meta-data android:name="android.support.PARENT_ACTIVITY"
-				android:value=".activities.DetailsActivity"/>
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+				android:value=".activities.MainActivity" />
+		</activity>
+
+		<activity
+			android:name=".activities.UpdateActivity"
+			android:parentActivityName=".activities.MainActivity">
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+				android:value=".activities.MainActivity" />
 		</activity>
 	</application>
 

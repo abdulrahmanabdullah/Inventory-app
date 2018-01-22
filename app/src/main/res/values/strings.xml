@@ -47,4 +47,5 @@
 	<string name="no_data_to_deleted">DataBase is empty</string>
 	<string name="what_quatity">Please entry quantity for</string>
 	<string name="successful_deleted">Deleted</string>
+	<string name="uri_is_empty">Empty Uri .</string>
 </resources>
